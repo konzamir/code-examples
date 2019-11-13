@@ -1,0 +1,87 @@
+version: '3'
+
+services:
+  app: &app
+    container_name: youplayer_python_container
+    build:
+      context: .
+      dockerfile: ./docker/python/Dockerfile
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./src:/src
+    ports:
+      - 8000:8000
+    command: python manage.py runserver 0.0.0.0:8000
+    networks:
+      - youplayer
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+  celery:
+    container_name: youplayer_celery_container
+    <<: *app
+    ports: []
+    volumes:
+      - ./src:/src
+    command: celery -A main worker -Q save_items,celery,featured_links --loglevel=INFO
+    networks:
+      - youplayer
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: always
+  mysql:
+    container_name: youplayer_mysql_container
+    image: mysql:5.7
+    volumes:
+      - ./data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_DATABASE=youplayer
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=adminpass
+      - MYSQL_ROOT_PASSWORD=adminpass
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    networks:
+      - youplayer
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_general_ci']
+    restart: always
+  rabbitmq:
+    container_name: youplayer_rabbitmq_container
+    hostname: rabbit
+    image: rabbitmq:3.6.6-management
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: user
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - youplayer
+    restart: always
+  frontend:
+    container_name: youplayer_javascript_container
+    hostname: frontend
+    build: 
+      context: .
+      dockerfile: ./docker/frontend/dockerfile
+    volumes:
+      - ./src_frontend:/usr/frontend
+      - /usr/frontend/node_modules
+    ports: 
+      - "80:80"
+    networks:
+      - youplayer
+    restart: always
+  
+networks:
+  youplayer:
+    driver: bridge
+
+volumes:
+  mysql:

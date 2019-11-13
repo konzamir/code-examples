@@ -1,0 +1,16 @@
+[DB]
+host=mysql
+user=user
+name=youplayer
+pass=adminpass
+port=3306
+
+[RABBIT]
+url=amqp://user:user@rabbitmq:5672
+
+[APP]
+allowed_hosts=*,
+youtube_api_key=AIzaSyAlPK3CQSebFVVnXQ_Aa8kIlRmAu0S5zzg
+items_per_page=25
+cors_origin_whitelist=http://localhost:80,
+

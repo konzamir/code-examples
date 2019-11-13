@@ -1,0 +1,14 @@
+# build stage
+FROM node:lts-alpine as build-stage
+RUN mkdir /usr/frontend
+WORKDIR /usr/frontend
+COPY ./src_frontend/package*.json ./
+RUN npm install
+COPY ./src_frontend .
+RUN npm run build
+
+# production stage
+FROM nginx:stable-alpine as production-stage
+COPY --from=build-stage /usr/frontend/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

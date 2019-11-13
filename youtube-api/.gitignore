@@ -1,0 +1,24 @@
+.venv
+.venv/*
+
+docker-compose.yaml
+
+.idea
+.idea/*
+
+__pycache__
+__pycache__/*
+
+data
+data/*
+
+.vscode
+.vscode/*
+
+vendor/
+node_modules/
+npm-debug.log
+package-lock.json
+
+# dist
+# dist/*

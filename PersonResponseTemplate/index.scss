@@ -1,0 +1,124 @@
+@import 'src/mixins/media';
+
+#react-root {
+  .user-avatar-legend {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+
+    @include respond-to('sm') {
+      flex-direction: column;
+    };
+
+    .user-avatar-legend-data {
+      transition: background-color 0.3s ease-in-out;
+      display: flex;
+      align-items: center;
+      border-radius: 5px;
+      padding: 5px;
+
+      &:hover {
+        background-color: rgb(199, 199, 199);
+      }
+
+      > a {
+        display: flex;
+      }
+
+    };
+
+    .avatar {
+      margin: 0 10px;
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      flex-shrink: 0;
+      cursor: pointer;
+    };
+
+    .info {
+      cursor: pointer;
+      align-self: center;
+
+      p {
+        font-size: 15px;
+        color: #ababab;
+        margin: 2px 0px;
+      };
+
+      .added {
+        margin-top: 20px;
+        color: #383833;
+      };
+
+      .name {
+        color: #141498;
+        font-size: 17px;
+        font-weight: bold;
+      };
+    };
+
+    .location {
+      display: flex;
+      flex-direction: column;
+    };
+
+    .p-checkbox {
+      margin: 10px;
+    }
+  };
+
+  .user-result-actions {
+    position: relative;
+    margin-left: 20px;
+    display: flex;
+    align-self: center;
+
+    svg {
+      transform: scale(0.7);
+      background-color: #4D4D4D;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+
+      &:hover {
+        background-color: #e7e7e7;
+      }
+    }
+
+    .user-result-actions-statistic {
+      width: 3em;
+      height: 3em;
+      background-color: red;
+      margin-right: 2em;
+      cursor: pointer;
+    };
+
+    .user-result-actions-btn {
+      display: block;
+      width: 150px;
+      margin: 5px;
+      padding: 7px;
+      font-size: 14px;
+      border-radius: 5px;
+      border: 1px #141498 solid;
+      color: #4cbeb1;
+      background-color: transparent;
+      max-width: 25vw;
+      cursor: pointer;
+
+      @include respond-to('sm') {
+        max-width: unset;
+      };
+    };
+
+    .action-message-btn {
+      background-color: #141498;
+    };
+
+    @include respond-to('sm-portrait') {
+      flex-direction: column;
+    };
+  };
+};
